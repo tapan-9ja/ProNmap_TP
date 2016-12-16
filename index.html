@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mumbai Tourist Map - TP</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+        <link rel="stylesheet" href="css/style.css">
+        <script src="js/jquery.min.js"></script>
+        <script src="js/knockout.js"></script>
+    </head>
+    <body>
+        <div id = "search-box">
+            <span id = "navarea" onclick="openNav()">&#9776; </span>
+            <header id="title">
+                <h2>Welcome to Mumbai !!!</h2>
+                <hr>
+            </header>
+            <aside id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closeicon" onclick="closeNav()">&#9776;</a>
+                <h2 id = "filter-name">Search</h2>
+                <input type = "text" data-bind = "textInput: query" placeholder="Type location here">
+                <ul class = "list" data-bind="foreach: filteredLocations">
+                    <li>
+                        <a class="location_name" data-bind="text: name,click: $parent.displayMarker"></a>
+                    </li>
+                </ul>
+            </aside>
+            <div id="map"></div>
+        </div>
+        <script onerror="gmapError()" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAeAOPkMWnZhHp2eYUFMNUoxIjv6PqsIe0&callback=initMap"></script>
+        <script>
+            var map;
+
+            var gmapError = function() {
+            var mapTimeout = setTimeout(function() {
+              alert("Unable to load Google Maps.");
+              }, 5000);
+            };
+
+            function initMap() {
+              map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 19.08667, lng: 72.8232},
+                zoom: 11
+              });
+              clearTimeout(gmapError);
+
+              var viewModel = new ViewModel();
+              ko.applyBindings(viewModel);
+            }
+        </script>
+        <script src="js/main.js"></script>
+    </body>
+</html>
